@@ -1,5 +1,5 @@
 import AppLayout from "@/app/app-layout"
-import { ApiTutorials } from "@/components/api-tutorials"
+import TutorialsClientPage from "./client-page"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export default function TutorialsPage() {
   return (
     <AppLayout>
       <div className="container mx-auto py-8">
-        <ApiTutorials />
+        <TutorialsClientPage />
       </div>
     </AppLayout>
   )
