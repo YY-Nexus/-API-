@@ -1,0 +1,261 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* 启智云枢³品牌蓝色调 */
+    --primary: 210 100% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 100% 40%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 210 100% 50%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 210 100% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* 启智云枢³品牌样式 */
+.brand-gradient {
+  background: linear-gradient(135deg, #0070f3 0%, #00a1ff 100%);
+}
+
+.brand-text {
+  background: linear-gradient(135deg, #0070f3 0%, #00a1ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-superscript {
+  font-size: 0.6em;
+  vertical-align: super;
+}
+
+/* 立体视觉效果 */
+.shadow-blue {
+  box-shadow: 0 4px 14px rgba(0, 112, 243, 0.1);
+}
+
+.shadow-blue-hover {
+  transition: box-shadow 0.3s ease;
+}
+
+.shadow-blue-hover:hover {
+  box-shadow: 0 8px 30px rgba(0, 112, 243, 0.2);
+}
+
+/* 科技蓝渐变 */
+.bg-tech-blue-gradient {
+  background: linear-gradient(135deg, #0070f3 0%, #00a1ff 100%);
+}
+
+.bg-tech-blue-light-gradient {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fd 100%);
+}
+
+/* 按钮悬停效果 */
+.btn-blue-glow {
+  transition: all 0.3s ease;
+}
+
+.btn-blue-glow:hover {
+  box-shadow: 0 0 15px rgba(0, 112, 243, 0.5);
+  transform: translateY(-1px);
+}
+
+/* 导航项动画 */
+.nav-item-transition {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-item-transition:hover {
+  transform: translateX(4px);
+}
+
+/* 移动端优化样式 */
+@layer utilities {
+  /* 隐藏滚动条但保留功能 */
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  /* 增大触摸区域 */
+  .touch-target {
+    @apply p-3;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* 移动端表格优化 */
+  .mobile-table {
+    @apply w-full;
+  }
+
+  .mobile-table th,
+  .mobile-table td {
+    @apply block w-full text-left;
+  }
+
+  .mobile-table tr {
+    @apply block border-b mb-4;
+  }
+
+  .mobile-table th {
+    @apply font-bold;
+  }
+
+  /* 移动端卡片优化 */
+  .mobile-card {
+    @apply p-4 rounded-lg border;
+  }
+
+  /* 移动端底部安全区域 */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 16px);
+  }
+}
+
+/* 移动端媒体查询 */
+@media (max-width: 768px) {
+  .container {
+    @apply px-4;
+  }
+
+  /* 调整字体大小 */
+  h1 {
+    @apply text-2xl;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+
+  /* 调整按钮大小 */
+  .btn-mobile {
+    @apply py-3 px-4;
+  }
+
+  /* 使用移动端表格样式 */
+  .md-mobile-table {
+    @apply mobile-table;
+  }
+
+  /* 调整表单元素 */
+  input,
+  select,
+  textarea {
+    @apply text-base;
+  }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) {
+  /* 增大交互元素的点击区域 */
+  button,
+  [role="button"],
+  a {
+    @apply touch-target;
+  }
+
+  /* 移除悬停效果，改为激活状态效果 */
+  .hover\:bg-muted:hover {
+    @apply bg-transparent;
+  }
+
+  .active\:bg-muted:active {
+    @apply bg-muted;
+  }
+}
+
+/* 暗色模式优化 */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-img {
+    filter: brightness(0.8) contrast(1.2);
+  }
+}
+
+/* 平板设备优化 */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .tablet-layout {
+    @apply grid-cols-2;
+  }
+}
+
+/* 横屏模式优化 */
+@media (orientation: landscape) and (max-width: 896px) {
+  /* 使用原生CSS而不是@apply指令，避免语法错误 */
+  .landscape-adjust {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}
