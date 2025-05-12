@@ -32,6 +32,7 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react"
+import { TimeWidget } from "@/components/time-widget"
 
 // 导航项类型定义
 interface NavItem {
@@ -62,6 +63,11 @@ export function SideNavigation({ className, collapsed = false, onToggleCollapse 
   const [search, setSearch] = useState("")
   const [activeGroup, setActiveGroup] = useState<string | null>(null)
   const [filteredNavigation, setFilteredNavigation] = useState<NavGroup[]>([])
+
+  // 处理品牌名称点击，导航到首页
+  const handleBrandClick = useCallback(() => {
+    router.push("/")
+  }, [router])
 
   // 使用useMemo缓存导航数据，避免在每次渲染时重新创建
   const navigationGroups = useMemo<NavGroup[]>(
@@ -265,14 +271,23 @@ export function SideNavigation({ className, collapsed = false, onToggleCollapse 
         className,
       )}
     >
-      {/* 品牌标识 */}
-      <div className="p-4 border-b border-blue-700 flex items-center justify-center">
+      {/* 品牌标识 - 添加点击功能和视觉反馈 */}
+      <div
+        className="p-4 border-b border-blue-700 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 hover:bg-blue-500"
+        onClick={handleBrandClick}
+        title="返回首页"
+        aria-label="返回首页"
+      >
         {collapsed ? (
-          <div className="text-white font-bold text-xl">CH³</div>
+          <div className="text-white font-bold text-xl">
+            <span>言</span>
+          </div>
         ) : (
           <div className="flex flex-col items-center">
-            <div className="text-white font-bold text-xl">启智云枢³</div>
-            <div className="text-xs text-blue-200">IntelliCloudHub³</div>
+            <div className="mb-2">
+              <span className="text-white font-bold text-2xl">言语云³</span>
+            </div>
+            <div className="text-sm text-blue-100">YanYu Cloud³</div>
           </div>
         )}
       </div>
@@ -406,6 +421,10 @@ export function SideNavigation({ className, collapsed = false, onToggleCollapse 
             </svg>
           )}
         </Button>
+      </div>
+      {/* 在侧边导航栏底部添加时间小部件 */}
+      <div className="mt-auto p-4">
+        <TimeWidget />
       </div>
     </div>
   )

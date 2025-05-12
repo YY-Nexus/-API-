@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Calendar, Download, Filter, RefreshCw, Search } from "lucide-react"
+import { formatDateTime } from "@/utils/date-utils"
 
 export default function ActivityLogPage() {
   const [loading, setLoading] = useState(false)
@@ -16,10 +17,11 @@ export default function ActivityLogPage() {
   const [dateRange, setDateRange] = useState("7d")
 
   // 模拟活动日志数据
+  const now = new Date()
   const activityLogs = [
     {
       id: "log_1",
-      timestamp: "2023-05-09 08:30:00",
+      timestamp: formatDateTime(now),
       type: "api",
       description: "调用用户认证API",
       status: "success",

@@ -24,6 +24,11 @@ import { Badge } from "@/components/ui/badge"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { BeijingTime } from "@/components/beijing-time"
+import { formatWeekday } from "@/utils/date-utils"
+
+// 在页面中使用LazyComponent组件懒加载非关键组件
+import { LazyComponent } from "@/components/lazy-component"
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -97,7 +102,9 @@ export default function DashboardPage() {
           <div>
             <h1 className="text-3xl font-bold mb-2">欢迎使用启智云枢³</h1>
             <p className="text-muted-foreground">智联万物丨枢启未来 - Connect Intelligence, Hub the Future</p>
-            <p className="text-sm text-muted-foreground mt-1">上次登录: 2023年5月9日 08:45 · 北京</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              上次登录: <BeijingTime showSeconds={false} /> · 北京 · {formatWeekday(new Date())}
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" size="sm" asChild>
@@ -185,59 +192,16 @@ export default function DashboardPage() {
           </Card>
 
           {/* 使用统计模块 */}
-          <Card className="hover:shadow-md transition-shadow">
-            <CardHeader className="pb-2">
-              <div className="flex justify-between items-center">
-                <CardTitle className="text-lg flex items-center">
-                  <BarChart className="h-5 w-5 mr-2 text-blue-500" />
-                  使用统计
-                </CardTitle>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0"
-                  onClick={refreshUsageStats}
-                  disabled={loading.usageStats}
-                >
-                  <RefreshCw className={`h-4 w-4 ${loading.usageStats ? "animate-spin" : ""}`} />
-                </Button>
-              </div>
-              <CardDescription className="flex items-center">
-                过去30天的使用情况
-                <Badge variant="outline" className="ml-2 bg-blue-50 text-blue-600 border-blue-200">
-                  增长 12%
-                </Badge>
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">API调用次数</span>
-                  <span className="text-sm font-medium">12,458</span>
-                </div>
-                <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-500 rounded-full" style={{ width: "65%" }}></div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">活跃用户</span>
-                  <span className="text-sm font-medium">342</span>
-                </div>
-                <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-500 rounded-full" style={{ width: "48%" }}></div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">文件上传</span>
-                  <span className="text-sm font-medium">1.2 GB</span>
-                </div>
-                <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-blue-500 rounded-full" style={{ width: "32%" }}></div>
-                </div>
-              </div>
-              <Button variant="ghost" size="sm" className="w-full mt-4 text-blue-600" asChild>
-                <Link href="/analytics">查看详细统计</Link>
-              </Button>
-            </CardContent>
-          </Card>
+          {/* 将非关键组件改为懒加载 */}
+          {/* 例如，将直接导入的组件： */}
+          {/* import { ApiUsageStats } from '@/components/api-usage-stats' */}
+          {/* <ApiUsageStats /> */}
+
+          {/* 改为懒加载方式： */}
+          <LazyComponent
+            importFn={() => import("@/components/api-usage-stats").then((mod) => ({ default: mod.ApiUsageStats }))}
+            fallback={<div className="w-full h-[400px] bg-muted rounded-lg animate-pulse" />}
+          />
 
           {/* AI助手模块 */}
           <Card className="hover:shadow-md transition-shadow">

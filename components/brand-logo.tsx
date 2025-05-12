@@ -1,22 +1,58 @@
+"use client"
+
 import { cn } from "@/lib/utils"
+import Image from "next/image"
+import { useState } from "react"
+import "../styles/logo-animations.css"
 
 interface BrandLogoProps {
   variant?: "full" | "icon" | "text"
   size?: "sm" | "md" | "lg"
   className?: string
+  animation?: "pulse" | "float" | "shimmer" | "none"
 }
 
-export function BrandLogo({ variant = "full", size = "md", className }: BrandLogoProps) {
+export function BrandLogo({ variant = "full", size = "md", className, animation = "none" }: BrandLogoProps) {
+  const [isHovered, setIsHovered] = useState(false)
+
   const sizeClasses = {
-    sm: "text-lg",
-    md: "text-xl",
-    lg: "text-2xl",
+    sm: "h-6",
+    md: "h-8",
+    lg: "h-10",
   }
+
+  const sizePixels = {
+    sm: { width: 24, height: 24 },
+    md: { width: 32, height: 32 },
+    lg: { width: 40, height: 40 },
+  }
+
+  const animationClass = animation !== "none" ? `logo-${animation}` : ""
+
+  const handleMouseEnter = () => setIsHovered(true)
+  const handleMouseLeave = () => setIsHovered(false)
 
   if (variant === "icon") {
     return (
-      <div className={cn("font-bold text-primary flex items-center", className)}>
-        <span className={cn(sizeClasses[size], "font-bold")}>CH³</span>
+      <div
+        className={cn("flex items-center logo-container", className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Image
+          src="/yanyu-cloud-shield-logo.png"
+          alt="言语云³"
+          width={sizePixels[size].width * 1.2}
+          height={sizePixels[size].height * 1.2}
+          className={cn(
+            "object-contain logo-hover-effect",
+            animationClass,
+            isHovered && animation === "none" ? "logo-pulse" : "",
+          )}
+          priority={size === "lg"} // 对大尺寸图像优先加载
+          quality={90} // 设置图像质量
+          loading="eager" // 对于首屏重要图像使用eager加载
+        />
       </div>
     )
   }
@@ -24,20 +60,47 @@ export function BrandLogo({ variant = "full", size = "md", className }: BrandLog
   if (variant === "text") {
     return (
       <div className={cn("font-bold", className)}>
-        <span className={cn(sizeClasses[size])}>启智云枢³</span>
+        <span className={cn(sizeClasses[size])}>言语云³</span>
       </div>
     )
   }
 
   return (
-    <div className={cn("font-bold flex flex-col", className)}>
-      <div className="flex items-center">
-        <span className={cn(sizeClasses[size])}>启智云枢³</span>
-        <span className={cn("ml-2 text-muted-foreground", size === "sm" ? "text-xs" : "text-sm")}>
-          IntelliCloudHub³
-        </span>
+    <div
+      className={cn("font-bold flex items-center gap-3", className)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="logo-container">
+        <Image
+          src="/yanyu-cloud-shield-logo.png"
+          alt="言语云³"
+          width={sizePixels[size].width * 1.5}
+          height={sizePixels[size].height * 1.5}
+          className={cn(
+            "object-contain logo-hover-effect",
+            animationClass,
+            isHovered && animation === "none" ? "logo-pulse" : "",
+          )}
+          priority={size === "lg"} // 对大尺寸图像优先加载
+          quality={90} // 设置图像质量
+          loading="eager" // 对于首屏重要图像使用eager加载
+        />
       </div>
-      {size !== "sm" && <span className="text-xs text-muted-foreground mt-1">智联万物丨枢启未来</span>}
+      <div className="flex flex-col">
+        <div className="flex items-center">
+          <span
+            className={cn(
+              size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-2xl",
+              "font-bold text-blue-600",
+            )}
+          >
+            言语云³
+          </span>
+          <span className={cn("ml-2 text-cyan-500", size === "sm" ? "text-xs" : "text-sm")}>YanYu Cloud³</span>
+        </div>
+        {size !== "sm" && <span className="text-xs text-blue-400 mt-1">连接智慧丨云启未来</span>}
+      </div>
     </div>
   )
 }
