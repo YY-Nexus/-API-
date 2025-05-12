@@ -49,9 +49,6 @@ export function BrandLogo({ variant = "full", size = "md", className, animation 
             animationClass,
             isHovered && animation === "none" ? "logo-pulse" : "",
           )}
-          priority={size === "lg"} // 对大尺寸图像优先加载
-          quality={90} // 设置图像质量
-          loading="eager" // 对于首屏重要图像使用eager加载
         />
       </div>
     )
@@ -82,9 +79,6 @@ export function BrandLogo({ variant = "full", size = "md", className, animation 
             animationClass,
             isHovered && animation === "none" ? "logo-pulse" : "",
           )}
-          priority={size === "lg"} // 对大尺寸图像优先加载
-          quality={90} // 设置图像质量
-          loading="eager" // 对于首屏重要图像使用eager加载
         />
       </div>
       <div className="flex flex-col">

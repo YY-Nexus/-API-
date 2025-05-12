@@ -44,12 +44,6 @@ import {
   BrainIcon,
 } from "lucide-react"
 
-// 导入AnimatedButton组件
-import { AnimatedButton } from "@/components/animated-button"
-
-// 导入useNotification钩子
-import { useNotification } from "@/contexts/notification-context"
-
 // 文件类型
 type FileType = "image" | "document" | "code" | "archive" | "other"
 
@@ -219,11 +213,7 @@ const generateMockFiles = (): FileItem[] => {
   ]
 }
 
-// 在组件内部使用通知系统
 export function ApiFileManager() {
-  // 添加useNotification钩子
-  const { showSuccess, showError, showInfo } = useNotification()
-
   const { t } = useLanguage()
   const [files, setFiles] = useState<FileItem[]>([])
   const [selectedFiles, setSelectedFiles] = useState<string[]>([])
@@ -264,8 +254,7 @@ export function ApiFileManager() {
     }, 800)
   }
 
-  // 在文件上传成功时显示成功通知
-  // 例如，在文件上传完成的回调中：
+  // 处理文件上传
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFiles = event.target.files
     if (!uploadedFiles || uploadedFiles.length === 0) return
@@ -307,9 +296,6 @@ export function ApiFileManager() {
       setFiles((prev) => [...newFiles, ...prev])
       setIsUploading(false)
       setUploadProgress(0)
-
-      // 显示成功通知
-      showSuccess("文件上传成功", `成功上传了 ${newFiles.length} 个文件`)
 
       // 清空文件输入
       if (fileInputRef.current) {
@@ -430,16 +416,10 @@ export function ApiFileManager() {
     }
   }
 
-  // 在删除文件时添加错误处理
+  // 删除选中文件
   const deleteSelectedFiles = () => {
-    try {
-      setFiles((prev) => prev.map((file) => (selectedFiles.includes(file.id) ? { ...file, status: "deleted" } : file)))
-      setSelectedFiles([])
-      showSuccess("文件删除成功", `已将 ${selectedFiles.length} 个文件移至回收站`)
-    } catch (error) {
-      showError("文件删除失败", "操作过程中发生错误，请重试")
-      console.error("Error deleting files:", error)
-    }
+    setFiles((prev) => prev.map((file) => (selectedFiles.includes(file.id) ? { ...file, status: "deleted" } : file)))
+    setSelectedFiles([])
   }
 
   // 归档选中文件
@@ -583,16 +563,10 @@ export function ApiFileManager() {
             <RefreshCw className="h-4 w-4 mr-2" />
             刷新
           </Button>
-          <AnimatedButton
-            size="sm"
-            onClick={() => fileInputRef.current?.click()}
-            animationType="pulse"
-            successMessage="准备上传文件"
-            showSuccessMessage={true}
-          >
+          <Button size="sm" onClick={() => fileInputRef.current?.click()}>
             <UploadCloud className="h-4 w-4 mr-2" />
             上传文件
-          </AnimatedButton>
+          </Button>
           <input type="file" ref={fileInputRef} className="hidden" multiple onChange={handleFileUpload} />
         </div>
       </div>
@@ -842,16 +816,10 @@ export function ApiFileManager() {
                 <div className="text-center py-8 text-muted-foreground">
                   <File className="h-12 w-12 mx-auto mb-2 opacity-20" />
                   <p>没有找到文件</p>
-                  <AnimatedButton
-                    size="sm"
-                    onClick={() => fileInputRef.current?.click()}
-                    animationType="pulse"
-                    successMessage="准备上传文件"
-                    showSuccessMessage={true}
-                  >
+                  <Button variant="outline" size="sm" className="mt-2" onClick={() => fileInputRef.current?.click()}>
                     <UploadCloud className="h-4 w-4 mr-2" />
                     上传文件
-                  </AnimatedButton>
+                  </Button>
                 </div>
               ) : viewMode === "list" ? (
                 <div className="space-y-2">

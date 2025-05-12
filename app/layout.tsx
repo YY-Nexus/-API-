@@ -4,10 +4,6 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/contexts/language-context"
-// 导入NotificationProvider
-import { NotificationProvider } from "@/contexts/notification-context"
-// 导入UserPreferencesProvider
-import { UserPreferencesProvider } from "@/contexts/user-preferences-context"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -17,8 +13,6 @@ export const metadata: Metadata = {
     generator: 'v0.dev'
 }
 
-// 在RootLayout组件中添加NotificationProvider
-// 在RootLayout组件中添加UserPreferencesProvider
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,11 +22,7 @@ export default function RootLayout({
     <html lang="zh-CN">
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <LanguageProvider>
-            <NotificationProvider>
-              <UserPreferencesProvider>{children}</UserPreferencesProvider>
-            </NotificationProvider>
-          </LanguageProvider>
+          <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
